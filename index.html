@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mermi Açısı ve Mesafe Hesaplama</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      padding: 20px;
+      line-height: 1.6;
+      font-size: 18px;
+    }
+    input, button {
+      font-size: 18px;
+      padding: 8px;
+      margin-top: 8px;
+      width: 100%;
+    }
+    .sonuc {
+      margin-top: 20px;
+      background: #fff;
+      padding: 10px;
+      border-left: 5px solid #28a745;
+    }
+  </style>
+</head>
+<body>
+  <h2>Mermi Açısı ve Mesafe Hesaplama</h2>
+  <p>Kısa kenar, uzun kenar (cm) ve yükseklik (cm) girin:</p>
+  <input type="number" id="kisa" placeholder="Kısa Kenar (cm)">
+  <input type="number" id="uzun" placeholder="Uzun Kenar (cm)">
+  <input type="number" id="yukseklik" placeholder="Yükseklik (cm)">
+  <button onclick="hesapla()">Hesapla</button>
+
+  <div class="sonuc" id="sonuclar"></div>
+
+  <script>
+    function hesapla() {
+      const kisa = parseFloat(document.getElementById("kisa").value);
+      const uzun = parseFloat(document.getElementById("uzun").value);
+      const yukseklik = parseFloat(document.getElementById("yukseklik").value);
+
+      if (isNaN(kisa) || isNaN(uzun) || isNaN(yukseklik)) {
+        alert("Lütfen tüm alanları doldurun.");
+        return;
+      }
+
+      const oran = kisa / uzun;
+      const aciRad = Math.asin(oran);
+      const aciDeg = aciRad * (180 / Math.PI);
+      const aci = aciDeg.toFixed(2);
+
+      const hipotenus = (yukseklik / Math.sin(aciRad)) / 100;
+      const yatay = (hipotenus * Math.cos(aciRad)).toFixed(2);
+      const hip = hipotenus.toFixed(2);
+
+      document.getElementById("sonuclar").innerHTML = `
+        <strong>Açı:</strong> ≈ ${aci}°<br>
+        <strong>Hipotenüs:</strong> ≈ ${hip} m<br>
+        <strong>Yatay Mesafe:</strong> ≈ ${yatay} m
+      `;
+    }
+  </script>
+</body>
+</html>
